@@ -55,7 +55,9 @@
         "cinttypes": "cpp",
         "typeinfo": "cpp",
         "iomanip": "cpp",
-        "cstring": "cpp"
+        "cstring": "cpp",
+        "thread": "cpp",
+        "stop_token": "cpp"
     },
     "editor.formatOnSave": true
 }

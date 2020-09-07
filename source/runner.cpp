@@ -59,6 +59,7 @@ void evoluti::benchmark::runner::run() const {
     double total = 0;
     struct proc_info proc;
     const char* tol_color = bold_green;
+    std::string current_group;
 
     proc_info_get(&proc);
 
@@ -70,6 +71,12 @@ void evoluti::benchmark::runner::run() const {
 
     for (auto& m : _marks)
     {
+        if (current_group != m->get_group())
+        {
+            current_group = m->get_group();
+            std::cout << bold_blue << "Running marks for " << current_group << end_color << std::endl;
+        }
+
         total_progress = m->get_n_iters();
         std::cout << "\r"
                   << "[  0%]" << bold_green << " >                     [0.00upus 0us]" << end_color;

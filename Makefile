@@ -16,12 +16,13 @@ TEST_BINS=$(patsubst $(TEST_DIR)%.cpp,$(BLD_DIR)%,$(TEST_SRCS))
 
 GXX=g++
 GFLAGS=-std=c++11 -Wall -I$(INC_DIR)
+GLFLAGS=-lpthread
 
 all: run tests
 
 run: $(SRC_OBJS)
 	@echo "\e[1;32mLinking $@\e[0m"
-	@$(GXX) $(GFLAGS) $(EXTRA_CFLAGS) $^ -o $@
+	@$(GXX) $(GFLAGS) $(EXTRA_CFLAGS) $^ $(GLFLAGS) -o $@
 
 tests: $(TEST_BINS)
 

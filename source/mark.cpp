@@ -2,7 +2,11 @@
 
 #include <stdexcept>
 
-evoluti::benchmark::mark::mark(int n_units, int n_iter, const std::function<void(void)>& _mark) : cl(_mark) {
+evoluti::benchmark::mark::mark(const std::string& group,
+                               int n_units,
+                               int n_iter,
+                               const std::function<void(void)>& _mark)
+    : cl(_mark), _group(group) {
     if (n_iter < 1)
         throw std::logic_error("number of iterations for the mark must be greater than 0.");
 
@@ -14,7 +18,8 @@ evoluti::benchmark::mark::mark(int n_units, int n_iter, const std::function<void
     num_units = n_units;
 }
 
-evoluti::benchmark::mark::mark(int n_units, int n_iter, std::function<void(void)>&& _mark) : cl(_mark) {
+evoluti::benchmark::mark::mark(const std::string& group, int n_units, int n_iter, std::function<void(void)>&& _mark)
+    : cl(_mark), _group(group) {
     if (n_iter < 1)
         throw std::logic_error("number of iterations for the mark must be greater than 0.");
 
@@ -40,12 +45,20 @@ void evoluti::benchmark::mark::set_n_iters(int n_iter) {
     num_iter = n_iter;
 }
 
+void evoluti::benchmark::mark::set_group(const std::string& group) {
+    _group = group;
+}
+
 void evoluti::benchmark::mark::set_mark(const std::function<void(void)>& _mark) {
     cl.set(_mark);
 }
 
 void evoluti::benchmark::mark::set_mark(std::function<void(void)>&& _mark) {
     cl.set(_mark);
+}
+
+std::string evoluti::benchmark::mark::get_group() const {
+    return _group;
 }
 
 int evoluti::benchmark::mark::get_n_units() const {
