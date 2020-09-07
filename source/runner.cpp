@@ -23,6 +23,18 @@ const char* blue = "\033[0;34m";
 const char* bold_blue = "\033[1;34m";
 
 const char* end_color = "\033[0m";
+
+const char* color_for_evt(double evt1, double evt2) {
+    static const double TOLERANCE = 0.1;
+    double div = evt1 / evt2;
+
+    if (div > 1)
+        return bold_green;
+    else if (div < (1 - TOLERANCE))
+        return bold_red;
+    else
+        return bold_yellow;
+}
 }  // namespace evoluti
 
 evoluti::benchmark::runner::runner(const std::vector<mark*>& marks) : _marks(marks) {
@@ -39,14 +51,15 @@ void evoluti::benchmark::runner::set_marks(std::vector<mark*>&& marks) {
     _marks = marks;
 }
 
-void evoluti::benchmark::runner::runAll() const {
+void evoluti::benchmark::runner::run() const {
     int total_progress;
     uint64_t total_units = 0;
     int progress = 1;
     double res = 0;
     double total = 0;
-
     struct proc_info proc;
+    const char* tol_color = bold_green;
+
     proc_info_get(&proc);
 
     std::cout << green << "Running test for Intel Core i7-6820HQ x" << proc.nproc << end_color << std::endl;
@@ -70,8 +83,9 @@ void evoluti::benchmark::runner::runAll() const {
             if (res != -1)
             {
                 total += res;
+                tol_color = color_for_evt(total_units / total, 86);
                 std::cout << "\r"
-                          << "[" << std::right << std::setw(3) << 100 * progress / total_progress << "%] " << bold_green
+                          << "[" << std::right << std::setw(3) << 100 * progress / total_progress << "%] " << tol_color
                           << std::left << std::setw(21) << std::string(20 * progress / total_progress, '=') + '>'
                           << " [" << std::fixed << std::setprecision(2) << total_units / total << "upus " << (int)total
                           << "us]" << end_color;

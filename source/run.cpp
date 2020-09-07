@@ -48,7 +48,7 @@ int main(int argc, char* argv[]) {
         &doubleMark,
     });
 
-    runner.runAll();
+    runner.run();
 
     return 0;
 }

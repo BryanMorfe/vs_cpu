@@ -16,7 +16,7 @@ public:
     void set_marks(const std::vector<mark*>& marks);
     void set_marks(std::vector<mark*>&& marks);
 
-    void runAll() const;
+    void run() const;
 
 private:
     std::vector<mark*> _marks;
