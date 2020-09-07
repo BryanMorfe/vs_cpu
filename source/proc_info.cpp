@@ -1,8 +1,9 @@
 #include "proc_info.h"
+
 #include <assert.h>
 #include <sys/sysinfo.h>
 
-void proc_info_get(struct proc_info* pi)
+void evoluti::proc_info_get(struct evoluti::proc_info* pi)
 {
     assert(pi != nullptr);
 

@@ -6,9 +6,9 @@
 bool test_proc_info()
 {
     TEST_BEGIN();
-    struct proc_info proc;
+    struct evoluti::proc_info proc;
 
-    proc_info_get(&proc);
+    evoluti::proc_info_get(&proc);
 
     ASSERT_GREATER_THAN_INT(proc.nproc, 0);
     ASSERT_GREATER_THAN_INT(proc.nproc_avail, 0);

@@ -21,24 +21,34 @@ all: run tests
 
 run: $(SRC_OBJS)
 	@echo "\e[1;32mLinking $@\e[0m"
-	@$(GXX) $(GFLAGS) $^ -o $@
+	@$(GXX) $(GFLAGS) $(EXTRA_CFLAGS) $^ -o $@
 
 tests: $(TEST_BINS)
 
+clean:
+	@$(RM) $(BLD_DIR)
+
 $(BLD_DIR)test_%: $(OBJ_DIR)test_%.o $(OBJ_DIR)%.o
 	@echo "\e[1;32mLinking $@\e[0m"
-	@$(GXX) $(GFLAGS) $^ -o $@
+	@$(GXX) $(GFLAGS) -lm $^ -o $@
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.cpp $(OBJ_DIR)
 	@echo "\e[1;32mCompiling $@\e[0m"
-	@$(GXX) $(GFLAGS) $< -o $@
+	@$(GXX) -c $(GFLAGS) $< -o $@
 
 $(OBJ_DIR)test_%.o: $(TEST_DIR)test_%.cpp $(OBJ_DIR)
 	@echo "\e[1;32mCompiling $@\e[0m"
-	@$(GXX) $(GFLAGS) $< -o $@
+	@$(GXX) -c $(GFLAGS) $< -o $@
 
 $(BLD_DIR):
 	@$(MKDIR) $@
 
 $(OBJ_DIR): $(BLD_DIR)
 	@$(MKDIR) $@
+
+.PHONY: all
+.PHONY: clean
+.PHONY: tests
+
+.PRECIOUS: $(SRC_OBJS)
+.PRECIOUS: $(TEST_OBJS)
